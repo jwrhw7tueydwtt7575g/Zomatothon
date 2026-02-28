@@ -69,3 +69,25 @@ This project demonstrates a production-grade streaming MLOps pipeline for real-t
 
 ## License
 MIT
+
+---
+
+## Hackathon Prompt Coverage
+
+This project is a complete solution for the following hackathon challenge:
+
+> **Create a food delivery order dataset with 100,000 rows simulating Zomato-style kitchen operations. Each row represents one order. Include:**
+> - **Order & Merchant Info:** Unique order ID, merchant ID (from 500), restaurant name, city (Mumbai, Delhi, Bangalore, Hyderabad, Pune, Chennai), cuisine type, restaurant lat/lon.
+> - **Timestamps:** Order confirmed, FOR (Food Order Ready) = confirmed + random prep time (8–45 min), rider arrived timestamp.
+> - **Rider Info:** Rider ID, rider lat/lon at FOR. 35% of rows simulate fake FOR (rider within 200m), 65% genuine (rider 500m–3km away).
+> - **Order Items:** Number of items (1–6), item category, item complexity score (0.2–1.8, category-based).
+> - **Kitchen Load:** Concurrent orders (1–8), kitchen load index (0.1–1.0), peak hour, day of week, weekend, weather.
+> - **Labels:** Actual KPT (seconds, normal distribution by complexity/load), is FOR rider influenced (boolean), label confidence (0.4–1.0, lower for fake FOR).
+
+**How this repo solves it:**
+- Synthetic data generator (Kafka producer) creates all required fields, distributions, and correlations.
+- Real-time streaming, S3 data lake, and full MLOps pipeline for model training and audit.
+- MLflow for experiment tracking and artifact management.
+- All code, automation, and documentation included for reproducibility and demo.
+
+---
