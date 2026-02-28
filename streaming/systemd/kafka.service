@@ -1,0 +1,27 @@
+[Unit]
+Description=Apache Kafka Broker (KRaft mode)
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+Environment="JAVA_HOME=/usr/lib/jvm/java-11-amazon-corretto"
+Environment="KAFKA_HEAP_OPTS=-Xmx512m -Xms256m"
+
+ExecStart=/home/ec2-user/kafka/bin/kafka-server-start.sh \
+    /home/ec2-user/kafka/config/kraft/server.properties
+
+ExecStop=/home/ec2-user/kafka/bin/kafka-server-stop.sh
+
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/zomato/kafka.log
+StandardError=append:/var/log/zomato/kafka-error.log
+
+# Resource limits for t3.micro/medium
+MemoryLimit=768M
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

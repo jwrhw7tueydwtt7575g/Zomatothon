@@ -1,0 +1,28 @@
+# Zomato Streaming Pipeline - Python Dependencies
+# For Kafka producer, consumer, and model training
+
+# Kafka
+kafka-python>=2.0.2
+
+# AWS
+boto3>=1.34.0
+botocore>=1.34.0
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+pyarrow>=14.0.0  # For Parquet support
+
+# Data Generation
+faker>=18.0.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+
+# MLflow
+mlflow>=2.9.0
+
+# Optional: For production deployments
+# gunicorn>=21.0.0
+# prometheus-client>=0.19.0

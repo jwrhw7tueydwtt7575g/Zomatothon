@@ -1,0 +1,28 @@
+[Unit]
+Description=MLflow Tracking Server for Zomato ML Pipeline
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/zomato-pipeline
+Environment="AWS_REGION=eu-north-1"
+
+ExecStart=/usr/local/bin/mlflow server \
+    --host 0.0.0.0 \
+    --port 5000 \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root s3://zomatoovertomato/mlflow-artifacts/
+
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/zomato/mlflow.log
+StandardError=append:/var/log/zomato/mlflow-error.log
+
+# Resource limits
+MemoryLimit=512M
+CPUQuota=30%
+
+[Install]
+WantedBy=multi-user.target

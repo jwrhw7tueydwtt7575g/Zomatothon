@@ -1,0 +1,39 @@
+[Unit]
+Description=Zomato Kafka Consumer - Consumes orders and writes to S3
+After=network.target kafka.service zomato-producer.service
+Wants=kafka.service
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/zomato-pipeline/streaming
+Environment="KAFKA_BOOTSTRAP_SERVERS=localhost:9092"
+Environment="KAFKA_TOPIC=zomato-orders"
+Environment="KAFKA_GROUP_ID=zomato-consumer-group"
+Environment="S3_BUCKET=zomatoovertomato"
+Environment="S3_PREFIX=raw-orders"
+Environment="AWS_REGION=eu-north-1"
+Environment="BATCH_SIZE=100"
+Environment="BATCH_TIMEOUT_SECONDS=60"
+
+ExecStart=/usr/bin/python3 /home/ec2-user/zomato-pipeline/streaming/kafka_consumer.py \
+    --bootstrap-servers localhost:9092 \
+    --topic zomato-orders \
+    --s3-bucket zomatoovertomato \
+    --s3-prefix raw-orders \
+    --aws-region eu-north-1 \
+    --batch-size 100 \
+    --batch-timeout 60
+
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/zomato/consumer.log
+StandardError=append:/var/log/zomato/consumer-error.log
+
+# Resource limits for t3.micro
+MemoryLimit=256M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target
